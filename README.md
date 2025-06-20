@@ -114,8 +114,10 @@ Frontend	http://localhost:5173
 Backend API	http://localhost:5050/api
 phpMyAdmin	http://localhost:8080
 
+![image](https://github.com/user-attachments/assets/d76e4c98-af31-4936-994b-b864b4a6bee5)
+
 🧠 Auteurs
-Projet réalisé par le groupe QKV (Quentin, Kevin et Vincent)
+Projet réalisé par le groupe QKV (@quentbt, @dasilv-h3, @Vincent-Murienne)
 HITEMA - Master 1 Développement Web & Logiciel
 
 

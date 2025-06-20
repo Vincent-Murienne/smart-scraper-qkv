@@ -2,10 +2,11 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 
 from scraper import scrape_and_store
-import os
+from api import api_bp
 
 app = Flask(__name__)
 CORS(app)
+app.register_blueprint(api_bp, url_prefix="/api")
 
 @app.route("/api/scrape", methods=["POST"])
 def trigger_scrape():
@@ -14,7 +15,7 @@ def trigger_scrape():
         return jsonify({"message": "Scraping terminé avec succès ✅"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
 @app.route("/", methods=["GET"])
 def default():
     return "OK", 200

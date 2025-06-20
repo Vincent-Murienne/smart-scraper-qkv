@@ -37,11 +37,11 @@ services:
       - ./backend:/app
     environment:
       - FLASK_ENV=development
-      - DB_HOST=db
+      - MYSQL_HOST=db
       - DB_PORT=3306
-      - DB_NAME=qkv_db
-      - DB_USER=root
-      - DB_PASSWORD=
+      - MYSQL_DB=qkv_db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=my_root_password
     depends_on:
       - db
 

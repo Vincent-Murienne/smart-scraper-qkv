@@ -109,11 +109,6 @@ docker-compose up --build -d
 ```
 
 ### 3. Accès aux services
-Service	URL
-Frontend	http://localhost:5173
-Backend API	http://localhost:5050/api
-phpMyAdmin	http://localhost:8080
-
 ![image](https://github.com/user-attachments/assets/d76e4c98-af31-4936-994b-b864b4a6bee5)
 
 🧠 Auteurs

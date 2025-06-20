@@ -4,10 +4,10 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: my_root_password
-      MYSQL_DATABASE: my_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user_pass
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_DATABASE: qkv_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 
     volumes:
       - db_data:/var/lib/mysql
     ports:

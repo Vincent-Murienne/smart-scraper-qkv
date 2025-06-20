@@ -2,6 +2,9 @@
 
 Extraction automatisée de données Open Data avec Flask, React.js, MySQL et Docker.
 
+![image](https://github.com/user-attachments/assets/5fb8fc0d-63f5-442b-b0ad-a444865ab6c4)
+
+
 ## 🎯 Objectif du projet
 
 Ce projet vise à développer une application permettant :
@@ -110,6 +113,12 @@ docker-compose up --build -d
 
 ### 3. Accès aux services
 ![image](https://github.com/user-attachments/assets/d76e4c98-af31-4936-994b-b864b4a6bee5)
+
+### 4. Accéder à la base de donnée MySQL
+Envoyer la data dans la base de donnée qkv_db :
+    - Exécuter la réquête POST : localhost:5050/api/scrape
+
+### 5. Maintenant il est possible d'accéder au site web localhost:5173
 
 🧠 Auteurs
 Projet réalisé par le groupe QKV (@quentbt, @dasilv-h3, @Vincent-Murienne)

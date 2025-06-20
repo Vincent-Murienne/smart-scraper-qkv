@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, String
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -6,7 +6,7 @@ Base = declarative_base()
 class Arme(Base):
     __tablename__ = "armes"
 
-    referenceRGA = Column(Integer, primary_key=True, autoincrement=True)
+    referenceRGA = Column(String(20), primary_key=True)
     famille = Column(String(100))
     typeArme = Column(String(100))
     marque = Column(String(100))

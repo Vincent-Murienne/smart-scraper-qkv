@@ -26,6 +26,21 @@ services:
     ports:
       - "8080:80"
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "5050:5000"
+    depends_on:
+      - db
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_pass
+      MYSQL_HOST: db
+      MYSQL_DB: my_db
+
   frontend:
     build:
       context: .

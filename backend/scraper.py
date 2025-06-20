@@ -10,8 +10,8 @@ import requests
 API_URL = "https://tabular-api.data.gouv.fr/api/resources/061194e2-f004-4933-9e44-e7b6f5468e29/data/"
 
 # 🔐 Connexion MySQL via SQLAlchemy
-MYSQL_USER = os.getenv("MYSQL_USER", "root")
-MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "my_root_password")
+MYSQL_USER = os.getenv("MYSQL_USER", "user")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "user_pass")
 MYSQL_HOST = os.getenv("MYSQL_HOST", "db")
 MYSQL_DB = os.getenv("MYSQL_DB", "qkv_db")
 

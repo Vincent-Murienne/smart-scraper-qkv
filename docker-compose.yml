@@ -6,8 +6,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: my_root_password
       MYSQL_DATABASE: qkv_db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: my_root_password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_pass
     volumes:
       - db_data:/var/lib/mysql
     ports:
@@ -33,17 +33,13 @@ services:
     container_name: backend
     ports:
       - "5050:5050"
-    volumes:
-      - ./backend:/app
-    environment:
-      - FLASK_ENV=development
-      - MYSQL_HOST=db
-      - DB_PORT=3306
-      - MYSQL_DB=qkv_db
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=my_root_password
     depends_on:
       - db
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_pass
+      MYSQL_HOST: db
+      MYSQL_DB: qkv_db
 
   frontend:
     build:

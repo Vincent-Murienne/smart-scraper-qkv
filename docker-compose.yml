@@ -43,18 +43,9 @@ services:
 
   frontend:
     build:
-      context: .
-      dockerfile: frontend/Dockerfile
-    container_name: frontend
-    ports:
-      - "3000:80"
-    restart: always
-
-  frontend-dev:
-    build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
-    container_name: frontend-dev
+      dockerfile: Dockerfile
+    container_name: frontend
     volumes:
       - ./frontend:/app
       - /app/node_modules

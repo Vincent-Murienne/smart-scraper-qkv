@@ -1,18 +1,15 @@
-# Étape de build
-FROM node:20-alpine AS builder
+FROM node:20-alpine
+
 WORKDIR /app
 
-# Copier uniquement les fichiers nécessaires pour installer les dépendances
-COPY frontend/package*.json ./
+# Copier package.json en premier (cache)
+COPY package*.json ./
 RUN npm install
 
-# Copier tout le reste du code
-COPY frontend/ ./
-RUN npm run build
+# Copier le reste du code
+COPY . .
 
-# Étape de déploiement (serveur statique via nginx)
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Configuration Vite pour développement
+EXPOSE 5173
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "dev", "--", "--host", "--port", "5173"]

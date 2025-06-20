@@ -40,6 +40,8 @@ services:
       MYSQL_PASSWORD: user_pass
       MYSQL_HOST: db
       MYSQL_DB: qkv_db
+    volumes:
+      - ./backend:/app
 
   frontend:
     build:

@@ -1,12 +1,8 @@
-from fastapi import APIRouter, Depends, Query
-from sqlalchemy.orm import Session
-from typing import List, Optional
-from pydantic import BaseModel
-
+from flask import Blueprint, request, jsonify
 from models import Arme
-from app import SessionLocal
+from db import SessionLocal  
 
-router = APIRouter()
+api_bp = Blueprint("api", __name__)
 
 def get_db():
     db = SessionLocal()
@@ -15,57 +11,40 @@ def get_db():
     finally:
         db.close()
 
-# Schéma Pydantic pour la validation des données en entrée (POST)
-class ArmeCreate(BaseModel):
-    famille: str
-    typeArme: str
-    marque: str
-    modele: str
-    fabricant: str
-    paysFabricant: str
-    classementEuropeen: str
 
-# Schéma Pydantic pour la réponse (GET)
-class ArmeResponse(ArmeCreate):
-    referenceRGA: int
-
-    class Config:
-        orm_mode = True
-
-# Route GET avec filtres facultatifs
-@router.get("/armes", response_model=List[ArmeResponse])
-def get_armes(
-    famille: Optional[str] = Query(None),
-    typeArme: Optional[str] = Query(None),
-    marque: Optional[str] = Query(None),
-    modele: Optional[str] = Query(None),
-    fabricant: Optional[str] = Query(None),
-    paysFabricant: Optional[str] = Query(None),
-    classementEuropeen: Optional[str] = Query(None),
-    db: Session = Depends(get_db)
-):
+@api_bp.route("/armes", methods=["GET"])
+def get_armes():
+    db = next(get_db())
     query = db.query(Arme)
-    if famille:
-        query = query.filter(Arme.famille == famille)
-    if typeArme:
-        query = query.filter(Arme.typeArme == typeArme)
-    if marque:
-        query = query.filter(Arme.marque == marque)
-    if modele:
-        query = query.filter(Arme.modele == modele)
-    if fabricant:
-        query = query.filter(Arme.fabricant == fabricant)
-    if paysFabricant:
-        query = query.filter(Arme.paysFabricant == paysFabricant)
-    if classementEuropeen:
-        query = query.filter(Arme.classementEuropeen == classementEuropeen)
-    return query.all()
 
-# Route POST pour ajouter une arme
-@router.post("/armes", response_model=ArmeResponse)
-def create_arme(arme: ArmeCreate, db: Session = Depends(get_db)):
-    arme_obj = Arme(**arme.dict())
-    db.add(arme_obj)
+    # Appliquer les filtres s’ils existent dans les query params
+    for field in [
+        "famille", "typeArme", "marque", "modele",
+        "fabricant", "paysFabricant", "classementEuropeen"
+    ]:
+        value = request.args.get(field)
+        if value:
+            query = query.filter(getattr(Arme, field) == value)
+
+    armes = query.all()
+    results = [arme.to_dict() for arme in armes]
+    return jsonify(results), 200
+
+@api_bp.route("/armes", methods=["POST"])
+def create_arme():
+    db = next(get_db())
+    data = request.get_json()
+
+    required_fields = [
+        "famille", "typeArme", "marque", "modele",
+        "fabricant", "paysFabricant", "classementEuropeen"
+    ]
+
+    if not all(field in data for field in required_fields):
+        return jsonify({"error": "Champs manquants"}), 400
+
+    arme = Arme(**data)
+    db.add(arme)
     db.commit()
-    db.refresh(arme_obj)
-    return arme_obj
+    db.refresh(arme)
+    return jsonify(arme.to_dict()), 201

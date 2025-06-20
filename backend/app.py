@@ -1,19 +1,18 @@
-# backend/app.py
-from fastapi import FastAPI
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from flask import Flask
+from flask_cors import CORS
+
 from models import Base
-from api import router
+from db import engine
+from api import api_bp
 
-app = FastAPI()
+app = Flask(__name__)
+CORS(app)
 
-# DATABASE_URL = "mysql+pymysql://root:@db:3306/qkv_db"
-DATABASE_URL = "mysql+pymysql://user:user_pass@db:3306/my_db"
-
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine)
-
-# Créer les tables (attention à ne pas faire ça en production)
+# Créer les tables
 Base.metadata.create_all(bind=engine)
 
-app.include_router(router)
+# Enregistrer les routes
+app.register_blueprint(api_bp, url_prefix="/api")
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5050, debug=True)

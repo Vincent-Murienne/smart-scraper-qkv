@@ -1,14 +1,12 @@
-# backend/models.py
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
 class Arme(Base):
     __tablename__ = "armes"
 
-    id = Column(Integer, primary_key=True, index=True)
-    referenceRGA = Column(String(100))
+    referenceRGA = Column(Integer, primary_key=True, autoincrement=True)
     famille = Column(String(100))
     typeArme = Column(String(100))
     marque = Column(String(100))
@@ -16,3 +14,15 @@ class Arme(Base):
     fabricant = Column(String(100))
     paysFabricant = Column(String(100))
     classementEuropeen = Column(String(100))
+
+    def to_dict(self):
+        return {
+            "referenceRGA": self.referenceRGA,
+            "famille": self.famille,
+            "typeArme": self.typeArme,
+            "marque": self.marque,
+            "modele": self.modele,
+            "fabricant": self.fabricant,
+            "paysFabricant": self.paysFabricant,
+            "classementEuropeen": self.classementEuropeen,
+        }

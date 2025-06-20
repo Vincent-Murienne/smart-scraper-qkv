@@ -4,10 +4,10 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 
+      MYSQL_ROOT_PASSWORD: my_root_password
       MYSQL_DATABASE: qkv_db
       MYSQL_USER: root
-      MYSQL_PASSWORD: 
+      MYSQL_PASSWORD: my_root_password
     volumes:
       - db_data:/var/lib/mysql
     ports:
@@ -25,6 +25,25 @@ services:
       PMA_ARBITRARY: 0
     ports:
       - "8080:80"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./backend:/app
+    environment:
+      - FLASK_ENV=development
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=qkv_db
+      - DB_USER=root
+      - DB_PASSWORD=
+    depends_on:
+      - db
 
   frontend:
     build:
